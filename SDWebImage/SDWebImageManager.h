@@ -16,20 +16,25 @@ typedef enum
     /**
      * By default, when a URL fail to be downloaded, the URL is blacklisted so the library won't keep trying.
      * This flag disable this blacklisting.
+     * 默认情况下，当一个URL下载失败后，该URL会被加入黑名单，之后不会再对此URL重试，此标记用于禁用黑名单
      */
     SDWebImageRetryFailed = 1 << 0,
     /**
      * By default, image downloads are started during UI interactions, this flags disable this feature,
      * leading to delayed download on UIScrollView deceleration for instance.
+     * 默认情况下，图片下载是后台进行的，开启此标记会延迟图片的下载以分摊更多的CPU给界面交互，通常在界面交互比较频繁的时候开启此*标记
+     *
      */
     SDWebImageLowPriority = 1 << 1,
     /**
      * This flag disables on-disk caching
+     此标记用与禁用硬盘缓存
      */
     SDWebImageCacheMemoryOnly = 1 << 2,
     /**
      * This flag enables progressive download, the image is displayed progressively during download as a browser would do.
      * By default, the image is only displayed once completely downloaded.
+     此标记用于开启渐进式下载并显示，默认情况下完成后一次性显示
      */
     SDWebImageProgressiveDownload = 1 << 3
 } SDWebImageOptions;

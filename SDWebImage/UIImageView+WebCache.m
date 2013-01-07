@@ -56,16 +56,19 @@ static char operationKey;
         {
             __strong UIImageView *sself = wself;
             if (!sself) return;
+            //加载图片这一步，应该属于图片视图的一个功能范围，所以将此段回调代码在图片视图中实现
             if (image)
             {
                 sself.image = image;
                 [sself setNeedsLayout];
             }
+            //调用外部回调
             if (completedBlock && finished)
             {
                 completedBlock(image, error, cacheType);
             }
         }];
+        //动态扩展属性，且指定为retain,nonatomic，要使用该方法，需要导入#import "objc/runtime.h"
         objc_setAssociatedObject(self, &operationKey, operation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
 }
@@ -77,6 +80,7 @@ static char operationKey;
     if (operation)
     {
         [operation cancel];
+        //疑问？为什么不直接使用objc_removeAssociatedObjects
         objc_setAssociatedObject(self, &operationKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
 }

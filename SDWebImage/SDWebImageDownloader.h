@@ -16,19 +16,20 @@ typedef enum
     SDWebImageDownloaderProgressiveDownload = 1 << 1
 } SDWebImageDownloaderOptions;
 
+//定义常量:开始下载标记、结束下载标记
 extern NSString *const SDWebImageDownloadStartNotification;
 extern NSString *const SDWebImageDownloadStopNotification;
-
+//定义block类型：正在下载中block类型、下载完成block类型
 typedef void(^SDWebImageDownloaderProgressBlock)(NSUInteger receivedSize, long long expectedSize);
 typedef void(^SDWebImageDownloaderCompletedBlock)(UIImage *image, NSData *data, NSError *error, BOOL finished);
 
 /**
- * Asynchronous downloader dedicated and optimized for image loading.
+ * Asynchronous downloader dedicated and optimized for image loading.	
  */
 @interface SDWebImageDownloader : NSObject
-
+//最大并行下载数
 @property (assign, nonatomic) NSInteger maxConcurrentDownloads;
-
+//返回单例下载实体
 + (SDWebImageDownloader *)sharedDownloader;
 
 /**

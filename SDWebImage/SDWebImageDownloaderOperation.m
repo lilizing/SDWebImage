@@ -30,7 +30,7 @@
     size_t width, height;
 }
 
-- (id)initWithRequest:(NSURLRequest *)request queue:(dispatch_queue_t)queue options:(SDWebImageDownloaderOptions)options progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock cancelled:(void (^)())cancelBlock
+- (id)initWithRequest:(NSURLRequest *)request queue:(dispatch_queue_t)queue options:(SDWebImageDownloaderOptions)options progress:(void (^)(NSUInteger, long long))progressBlock completed:(void (^)(UIImage *, NSData *, NSError *, BOOL))completedBlock cancelled:(void (^)())cancelBlock name:(NSString *)name
 {
     if ((self = [super init]))
     {
@@ -43,6 +43,7 @@
         _executing = NO;
         _finished = NO;
         _expectedSize = 0;
+        self.name = name;
     }
     return self;
 }
@@ -64,11 +65,13 @@
         // If not in low priority mode, ensure we aren't blocked by UI manipulations (default runloop mode for NSURLConnection is NSEventTrackingRunLoopMode)
         if (!(self.options & SDWebImageDownloaderLowPriority))
         {
+            //NSLog(@"1");
             [self.connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+            //NSLog(@"2");
         }
-
+        //NSLog(@"3");
         [self.connection start];
-
+        //NSLog(@"4");
         if (self.connection)
         {
             if (self.progressBlock)
@@ -160,6 +163,10 @@
 
         dispatch_async(self.queue, ^
         {
+            
+            //NSLog(@"begin图片...%@",self.name);
+            //sleep(2);
+            //NSLog(@"end图片...%@",self.name);
             self.imageData = [NSMutableData.alloc initWithCapacity:expected];
         });
     }

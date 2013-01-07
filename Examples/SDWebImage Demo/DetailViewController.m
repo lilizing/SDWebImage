@@ -36,6 +36,7 @@
         __block UIActivityIndicatorView *activityIndicator;
         [self.imageView setImageWithURL:self.imageURL placeholderImage:nil options:SDWebImageProgressiveDownload progress:^(NSUInteger receivedSize, long long expectedSize)
         {
+            
             if (!activityIndicator)
             {
                 [self.imageView addSubview:activityIndicator = [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray]];
@@ -53,12 +54,14 @@
 
 - (void)viewDidLoad
 {
+    //NSLog(@"detail Load");
     [super viewDidLoad];
     [self configureView];
 }
 
 - (void)viewDidUnload
 {
+    //NSLog(@"detail unLoad");
     [super viewDidUnload];
     self.imageView = nil;
 }

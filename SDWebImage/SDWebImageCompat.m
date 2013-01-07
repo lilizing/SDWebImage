@@ -7,11 +7,11 @@
 //
 
 #import "SDWebImageCompat.h"
-
+//判断是否采用arc机制
 #if !__has_feature(objc_arc)
 #error SDWebImage is ARC only. Either turn on ARC for the project or use -fobjc-arc flag
 #endif
-
+//函数定义：生成缩略图
 UIImage *SDScaledImageForPath(NSString *path, NSObject *imageOrData)
 {
     if (!imageOrData)
@@ -21,30 +21,31 @@ UIImage *SDScaledImageForPath(NSString *path, NSObject *imageOrData)
 
     UIImage *image = nil;
     if ([imageOrData isKindOfClass:[NSData class]])
-    {
+    {//根据2进制数据生成图片
         image = [[UIImage alloc] initWithData:(NSData *)imageOrData];
     }
     else if ([imageOrData isKindOfClass:[UIImage class]])
-    {
+    {//直接类型转换为图片类型
         image = (UIImage *)imageOrData;
     }
     else
     {
         return nil;
     }
-
+    //判断设备屏幕是否支持缩放功能
     if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
     {
         CGFloat scale = 1.0;
         if (path.length >= 8)
         {
             // Search @2x. at the end of the string, before a 3 to 4 extension length (only if key len is 8 or more @2x. + 4 len ext)
+            //查找是否存在@2x的图片
             NSRange range = [path rangeOfString:@"@2x." options:0 range:NSMakeRange(path.length - 8, 5)];
             if (range.location != NSNotFound)
             {
                 scale = 2.0;
             }
-        }
+    }
 
         UIImage *scaledImage = [[UIImage alloc] initWithCGImage:image.CGImage scale:scale orientation:image.imageOrientation];
         image = scaledImage;
